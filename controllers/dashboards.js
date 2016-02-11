@@ -1,5 +1,5 @@
 /**
- * GET /
+ * GET /dashboards
  * Dashboards page.
  */
 exports.index = function(req, res) {
