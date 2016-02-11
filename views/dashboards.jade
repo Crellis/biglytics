@@ -4,43 +4,232 @@ block content
   .page-header
     h3 Your Dashboards
 
-    script.
-  var width = 960,
-  height = 500;
-  var color = d3.scale.category20();
-  var force = d3.layout.force()
-  .charge(-120)
-  .linkDistance(30)
-  .size([width, height]);
-  var svg = d3.select("body").append("svg")
-  .attr("width", width)
-  .attr("height", height);
-  d3.json("miserables.json", function(error, graph) {
-  if (error) throw error;
-  force
-  .nodes(graph.nodes)
-  .links(graph.links)
-  .start();
-  var link = svg.selectAll(".link")
-  .data(graph.links)
-  .enter().append("line")
-  .attr("class", "link")
-  .style("stroke-width", function(d) { return Math.sqrt(d.value); });
-  var node = svg.selectAll(".node")
-  .data(graph.nodes)
-  .enter().append("circle")
-  .attr("class", "node")
-  .attr("r", 5)
-  .style("fill", function(d) { return color(d.group); })
-  .call(force.drag);
-  node.append("title")
-  .text(function(d) { return d.name; });
-  force.on("tick", function() {
-  link.attr("x1", function(d) { return d.source.x; })
-  .attr("y1", function(d) { return d.source.y; })
-  .attr("x2", function(d) { return d.target.x; })
-  .attr("y2", function(d) { return d.target.y; });
-  node.attr("cx", function(d) { return d.x; })
-  .attr("cy", function(d) { return d.y; });
-  });
-  });
+    script(type='text/javascript', src='d3/d3.js')
+       script(type='text/javascript', src='d3/d3.layout.js')
+       script(type='text/javascript').
+         var m = [80, 160, 0, 160], // top right bottom left
+         w = 1280 - m[1] - m[3], // width
+         h = 800 - m[0] - m[2], // height
+         x = d3.scale.linear().range([0, w]),
+         y = 25, // bar height
+         z = d3.scale.ordinal().range(["steelblue", "#aaa"]); // bar color
+         var hierarchy = d3.layout.partition()
+         .value(function(d) { return d.size; });
+         var xAxis = d3.svg.axis()
+         .scale(x)
+         .orient("top");
+         var svg = d3.select("body").append("svg:svg")
+         .attr("width", w + m[1] + m[3])
+         .attr("height", h + m[0] + m[2])
+         .append("svg:g")
+         .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+         svg.append("svg:rect")
+         .attr("class", "background")
+         .attr("width", w)
+         .attr("height", h)
+         .on("click", up);
+         svg.append("svg:g")
+         .attr("class", "x axis");
+         svg.append("svg:g")
+         .attr("class", "y axis")
+         .append("svg:line")
+         .attr("y1", "100%");
+         d3.json("flare.json", function(root) {
+         hierarchy.nodes(root);
+         x.domain([0, root.value]).nice();
+         down(root, 0);
+         });
+         function down(d, i) {
+         if (!d.children || this.__transition__) return;
+         var duration = d3.event && d3.event.altKey ? 7500 : 750,
+         delay = duration / d.children.length;
+         // Mark any currently-displayed bars as exiting.
+         var exit = svg.selectAll(".enter").attr("class", "exit");
+         // Entering nodes immediately obscure the clicked-on bar, so hide it.
+         exit.selectAll("rect").filter(function(p) { return p === d; })
+         .style("fill-opacity", 1e-6);
+         // Enter the new bars for the clicked-on data.
+         // Per above, entering bars are immediately visible.
+         var enter = bar(d)
+         .attr("transform", stack(i))
+         .style("opacity", 1);
+         // Have the text fade-in, even though the bars are visible.
+         // Color the bars as parents; they will fade to children if appropriate.
+         enter.select("text").style("fill-opacity", 1e-6);
+         enter.select("rect").style("fill", z(true));
+         // Update the x-scale domain.
+         x.domain([0, d3.max(d.children, function(d) { return d.value; })]).nice();
+         // Update the x-axis.
+         svg.selectAll(".x.axis").transition()
+         .duration(duration)
+         .call(xAxis);
+         // Transition entering bars to their new position.
+         var enterTransition = enter.transition()
+         .duration(duration)
+         .delay(function(d, i) { return i * delay; })
+         .attr("transform", function(d, i) { return "translate(0," + y * i * 1.2 + ")"; });
+         // Transition entering text.
+         enterTransition.select("text").style("fill-opacity", 1);
+         // Transition entering rects to the new x-scale.
+         enterTransition.select("rect")
+         .attr("width", function(d) { return x(d.value); })
+         .style("fill", function(d) { return z(!!d.children); });
+         // Transition exiting bars to fade out.
+         var exitTransition = exit.transition()
+         .duration(duration)
+         .style("opacity", 1e-6)
+         .remove();
+         // Transition exiting bars to the new x-scale.
+         exitTransition.selectAll("rect").attr("width", function(d) { return x(d.value); });
+         // Rebind the current node to the background.
+         svg.select(".background").data([d]).transition().duration(duration * 2); d.index = i;
+         }
+         function up(d) {
+         if (!d.parent || this.__transition__) return;
+         var duration = d3.event && d3.event.altKey ? 7500 : 750,
+         delay = duration / d.children.length;
+         // Mark any currently-displayed bars as exiting.
+         var exit = svg.selectAll(".enter").attr("class", "exit");
+         // Enter the new bars for the clicked-on data's parent.
+         var enter = bar(d.parent)
+         .attr("transform", function(d, i) { return "translate(0," + y * i * 1.2 + ")"; })
+         .style("opacity", 1e-6);
+         // Color the bars as appropriate.
+         // Exiting nodes will obscure the parent bar, so hide it.
+         enter.select("rect")
+         .style("fill", function(d) { return z(!!d.children); })
+         .filter(function(p) { return p === d; })
+         .style("fill-opacity", 1e-6);
+         // Update the x-scale domain.
+         x.domain([0, d3.max(d.parent.children, function(d) { return d.value; })]).nice();
+         // Update the x-axis.
+         svg.selectAll(".x.axis").transition()
+         .duration(duration * 2)
+         .call(xAxis);
+         // Transition entering bars to fade in over the full duration.
+         var enterTransition = enter.transition()
+         .duration(duration * 2)
+         .style("opacity", 1);
+         // Transition entering rects to the new x-scale.
+         // When the entering parent rect is done, make it visible!
+         enterTransition.select("rect")
+         .attr("width", function(d) { return x(d.value); })
+         .each("end", function(p) { if (p === d) d3.select(this).style("fill-opacity", null); });
+         // Transition exiting bars to the parent's position.
+         var exitTransition = exit.selectAll("g").transition()
+         .duration(duration)
+         .delay(function(d, i) { return i * delay; })
+         .attr("transform", stack(d.index));
+         // Transition exiting text to fade out.
+         exitTransition.select("text")
+         .style("fill-opacity", 1e-6);
+         // Transition exiting rects to the new scale and fade to parent color.
+         exitTransition.select("rect")
+         .attr("width", function(d) { return x(d.value); })
+         .style("fill", z(true));
+         // Remove exiting nodes when the last child has finished transitioning.
+         exit.transition().duration(duration * 2).remove();
+         // Rebind the current parent to the background.
+         svg.select(".background").data([d.parent]).transition().duration(duration * 2);
+         }
+         // Creates a set of bars for the given data node, at the specified index.
+         function bar(d) {
+         var bar = svg.insert("svg:g", ".y.axis")
+         .attr("class", "enter")
+         .attr("transform", "translate(0,5)")
+         .selectAll("g")
+         .data(d.children)
+         .enter().append("svg:g")
+         .style("cursor", function(d) { return !d.children ? null : "pointer"; })
+         .on("click", down);
+         bar.append("svg:text")
+         .attr("x", -6)
+         .attr("y", y / 2)
+         .attr("dy", ".35em")
+         .attr("text-anchor", "end")
+         .text(function(d) { return d.name; });
+         bar.append("svg:rect")
+         .attr("width", function(d) { return x(d.value); })
+         .attr("height", y);
+         return bar;
+         }
+         // A stateful closure for stacking bars horizontally.
+         function stack(i) {
+         var x0 = 0;
+         return function(d) {
+         var tx = "translate(" + x0 + "," + y * i * 1.2 + ")";
+         x0 += x(d.value);
+         return tx;
+         };
+         }
+       svg(width='1280', height='800')
+         g(transform='translate(160,80)')
+           rect.background(width='960', height='720')
+           g.x.axis
+             g(transform='translate(0,0)', style='opacity: 1;')
+               line.tick(y2='-6', x2='0')
+               text(text-anchor='middle', dy='0em', y='-9', x='0') 0
+             g(transform='translate(95.99999999999999,0)', style='opacity: 1;')
+               line.tick(y2='-6', x2='0')
+               text(text-anchor='middle', dy='0em', y='-9', x='0') 50,000
+             g(transform='translate(191.99999999999997,0)', style='opacity: 1;')
+               line.tick(y2='-6', x2='0')
+               text(text-anchor='middle', dy='0em', y='-9', x='0') 100,000
+             g(transform='translate(288,0)', style='opacity: 1;')
+               line.tick(y2='-6', x2='0')
+               text(text-anchor='middle', dy='0em', y='-9', x='0') 150,000
+             g(transform='translate(383.99999999999994,0)', style='opacity: 1;')
+               line.tick(y2='-6', x2='0')
+               text(text-anchor='middle', dy='0em', y='-9', x='0') 200,000
+             g(transform='translate(480,0)', style='opacity: 1;')
+               line.tick(y2='-6', x2='0')
+               text(text-anchor='middle', dy='0em', y='-9', x='0') 250,000
+             g(transform='translate(576,0)', style='opacity: 1;')
+               line.tick(y2='-6', x2='0')
+               text(text-anchor='middle', dy='0em', y='-9', x='0') 300,000
+             g(transform='translate(672,0)', style='opacity: 1;')
+               line.tick(y2='-6', x2='0')
+               text(text-anchor='middle', dy='0em', y='-9', x='0') 350,000
+             g(transform='translate(767.9999999999999,0)', style='opacity: 1;')
+               line.tick(y2='-6', x2='0')
+               text(text-anchor='middle', dy='0em', y='-9', x='0') 400,000
+             g(transform='translate(863.9999999999999,0)', style='opacity: 1;')
+               line.tick(y2='-6', x2='0')
+               text(text-anchor='middle', dy='0em', y='-9', x='0') 450,000
+             g(transform='translate(960,0)', style='opacity: 1;')
+               line.tick(y2='-6', x2='0')
+               text(text-anchor='middle', dy='0em', y='-9', x='0') 500,000
+             path.domain(d='M0,-6V0H960V-6')
+           g.enter(transform='translate(0,5)')
+             g(transform='translate(0,0)', style='cursor: pointer; opacity: 1;')
+               text(x='-6', y='12.5', dy='.35em', text-anchor='end', style='fill-opacity: 1;') vis
+               rect(width='830.6476799999999', height='25', style='fill: rgb(70, 130, 180);')
+             g(transform='translate(0,30)rotate(0)skewX(0)scale(1,1)', style='cursor: pointer; opacity: 1;')
+               text(x='-6', y='12.5', dy='.35em', text-anchor='end', style='fill-opacity: 1;') util
+               rect(width='317.10144', height='25', style='fill: rgb(70, 130, 180);')
+             g(transform='translate(0,60)rotate(0)skewX(0)scale(1,1)', style='cursor: pointer; opacity: 1;')
+               text(x='-6', y='12.5', dy='.35em', text-anchor='end', style='fill-opacity: 1;') animate
+               rect(width='192.04608000000002', height='25', style='fill: rgb(70, 130, 180);')
+             g(transform='translate(0,90)rotate(0)skewX(0)scale(1,1)', style='cursor: pointer; opacity: 1;')
+               text(x='-6', y='12.5', dy='.35em', text-anchor='end', style='fill-opacity: 1;') query
+               rect(width='172.26432', height='25', style='fill: rgb(70, 130, 180);')
+             g(transform='translate(0,120)rotate(0)skewX(0)scale(1,1)', style='cursor: pointer; opacity: 1;')
+               text(x='-6', y='12.5', dy='.35em', text-anchor='end', style='fill-opacity: 1;') analytics
+               rect(width='93.53472', height='25', style='fill: rgb(70, 130, 180);')
+             g(transform='translate(0,150)rotate(0)skewX(0)scale(1,1)', style='cursor: pointer; opacity: 1;')
+               text(x='-6', y='12.5', dy='.35em', text-anchor='end', style='fill-opacity: 1;') scale
+               rect(width='60.08447999999999', height='25', style='fill: rgb(70, 130, 180);')
+             g(transform='translate(0,180)rotate(0)skewX(0)scale(1,1)', style='cursor: pointer; opacity: 1;')
+               text(x='-6', y='12.5', dy='.35em', text-anchor='end', style='fill-opacity: 1;') data
+               rect(width='58.14528', height='25', style='fill: rgb(70, 130, 180);')
+             g(transform='translate(0,210)rotate(0)skewX(0)scale(1,1)', style='cursor: pointer; opacity: 1;')
+               text(x='-6', y='12.5', dy='.35em', text-anchor='end', style='fill-opacity: 1;') physics
+               rect(width='57.473279999999995', height='25', style='fill: rgb(70, 130, 180);')
+             g(transform='translate(0,240)rotate(0)skewX(0)scale(1,1)', style='cursor: pointer; opacity: 1;')
+               text(x='-6', y='12.5', dy='.35em', text-anchor='end', style='fill-opacity: 1;') display
+               rect(width='46.567679999999996', height='25', style='fill: rgb(70, 130, 180);')
+             g(transform='translate(0,270)rotate(0)skewX(0)scale(1,1)', style='cursor: pointer; opacity: 1;')
+               text(x='-6', y='12.5', dy='.35em', text-anchor='end', style='fill-opacity: 1;') flex
+               rect(width='7.9027199999999995', height='25', style='fill: rgb(70, 130, 180);')
+           g.y.axis
+             line(y1='100%')
