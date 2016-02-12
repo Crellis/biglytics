@@ -94,6 +94,58 @@ exports.postSignup = function(req, res, next) {
     password: req.body.password
   });
 
+  //require Node modules
+
+  var http = require('http');
+  var querystring = require('querystring');
+  var cookieParser = require('cookie-parser');
+
+  // build the data object
+
+  var postData = querystring.stringify({
+      'email': req.body.email,
+      'firstname': req.body.first_name,
+      'lastname': req.body.last_name,
+      'hs_context': JSON.stringify({
+          "hutk": req.cookies.hubspotutk,
+          "ipAddress": req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+          "pageUrl": "http:/localhost:3000",
+          "pageName": "Create Account - BigLytics"
+      })
+  });
+
+  // set the post options, changing out the HUB ID and FORM GUID variables.
+
+  var options = {
+  	hostname: 'forms.hubspot.com',
+  	path: '/uploads/form/v2/1976760/574e43a5-8825-418d-8415-f62fd8e080f0/submissions',
+  	method: 'POST',
+  	headers: {
+  		'Content-Type': 'application/x-www-form-urlencoded',
+  		'Content-Length': postData.length
+  	}
+  }
+
+  // set up the request
+
+  var request = http.request(options, function(response){
+  	console.log("Status: " + response.statusCode);
+  	console.log("Headers: " + JSON.stringify(response.headers));
+  	response.setEncoding('utf8');
+  	response.on('data', function(chunk){
+  		console.log('Body: ' + chunk)
+  	});
+  });
+
+  request.on('error', function(e){
+  	console.log("Problem with request " + e.message)
+  });
+
+  // post the data
+
+  request.write(postData);
+  request.end();
+
   User.findOne({ email: req.body.email }, function(err, existingUser) {
     if (existingUser) {
       req.flash('errors', { msg: 'Account with that email address already exists.' });
