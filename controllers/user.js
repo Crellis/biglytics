@@ -57,6 +57,11 @@ exports.postLogin = function(req, res, next) {
  */
 exports.logout = function(req, res) {
   req.logout();
+  var _hsq = window._hsq = window._hsq || [];
+  _hsq.push(["trackEvent", {
+    id: "000000535600",
+    value: null
+}]);
   res.redirect('/');
 };
 
