@@ -57,7 +57,10 @@ exports.postLogin = function(req, res, next) {
  */
 exports.logout = function(req, res) {
   req.logout();
-  res.redirect('/logout');
+  //res.redirect('/');
+  res.render('account/logout', {
+    title: 'Logout'
+  });
 };
 
 /**
