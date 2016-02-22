@@ -5,16 +5,6 @@ var nodemailer = require('nodemailer');
 var passport = require('passport');
 var User = require('../models/User');
 
-/**************************/
-function runEvent(){
-var _hsq = window._hsq = window._hsq || [];
-_hsq.push(["trackEvent", {
-    id: "000000535600",
-    value: null
-}]);
-}
-/**************************/
-
 /**
  * GET /login
  * Login page.
@@ -67,8 +57,7 @@ exports.postLogin = function(req, res, next) {
  */
 exports.logout = function(req, res) {
   req.logout();
-  setTimeout(runEvent(),3000);
-  res.redirect('/');
+  res.redirect('/logout');
 };
 
 /**
