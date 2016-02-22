@@ -6,9 +6,17 @@ block content
   form.form-horizontal(id='signup-form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
     .form-group
+      label.col-sm-3.control-label(for='first_name') First Name
+      .col-sm-7
+        input.form-control(type='String', name='first_name', id='first_name', placeholder='First Name', autofocus)
+    .form-group
+      label.col-sm-3.control-label(for='last_name') Last Name
+      .col-sm-7
+        input.form-control(type='String', name='last_name', id='last_name', placeholder='Last Name')
+    .form-group
       label.col-sm-3.control-label(for='email') Email
       .col-sm-7
-        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus)
+        input.form-control(type='email', name='email', id='email', placeholder='Email')
     .form-group
       label.col-sm-3.control-label(for='password') Password
       .col-sm-7
@@ -24,6 +32,6 @@ block content
           | Signup
 
     p
-      | If you want to sign on with social settings just go direct to the 
+      | If you want to sign on with social settings just go direct to the
       a(href='/login') login page
       | .

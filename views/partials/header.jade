@@ -7,13 +7,14 @@
         span.icon-bar
         span.icon-bar
       a.navbar-brand(href='/')
-        img(src='https://www.biglytics.net/hs-fs/hubfs/Biglytics_Assets/biglytics_light_grey-01.png?t=1455029392916&height=25')
+        img(src='https://www.biglytics.net/hubfs/Biglytics_Assets/G.png?t=1455029392916', height=20)
     .collapse.navbar-collapse
       ul.nav.navbar-nav
         li(class=title=='Home'?'active':undefined)
           a(href='/') Home
-        li(class=title=='API Examples'?'active':undefined)
-          a(href='/api') API Examples
+        if user
+          li(class=title=='API Examples'?'active':undefined)
+            a(href='/api') API Examples
         li(class=title=='Contact'?'active':undefined)
           a(href='/contact') Contact
       ul.nav.navbar-nav.navbar-right
