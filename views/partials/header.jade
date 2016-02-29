@@ -12,11 +12,15 @@
       ul.nav.navbar-nav
         li(class=title=='Home'?'active':undefined)
           a(href='/') Home
+        li(class=title=='Contact'?'active':undefined)
+            a(href='/contact') Contact
         if user
           li(class=title=='API Examples'?'active':undefined)
             a(href='/api') API Examples
           li(class=title=='Analytics'?'active':undefined)
             a(href='/analytics') Analytics
+          li(class=title=='Dashboards'?'active':undefined)
+            a(href='/dashboards') Dashboards
         li(class=title=='Contact'?'active':undefined)
           a(href='/contact') Contact
       ul.nav.navbar-nav.navbar-right
