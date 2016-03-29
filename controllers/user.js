@@ -100,7 +100,7 @@ exports.postSignup = function(req, res, next) {
   /* start of HubSpot Forms API code */
 
   //require Node modules
-
+/*
   var http = require('http');
   var querystring = require('querystring');
   var cookieParser = require('cookie-parser');
@@ -150,6 +150,7 @@ exports.postSignup = function(req, res, next) {
 
   request.write(postData);
   request.end();
+  */
   /* end of HubSpot Forms API code */
 
 
@@ -206,7 +207,7 @@ request({
     body: JSON.stringify(postData)
 }, function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            console.log(body)
+            console.log(body);
         }
         else {
             console.log("error: " + error);
@@ -214,7 +215,7 @@ request({
             console.log("response.statusText: " + response.statusText);
             response.setEncoding('utf8');
            	response.on('data', function(chunk){
-           		console.log('Body: ' + chunk)
+           		console.log('Body: ' + chunk);
            	});
         }
     })
