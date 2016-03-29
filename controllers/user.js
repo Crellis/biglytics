@@ -163,7 +163,7 @@ exports.postSignup = function(req, res, next) {
    var postData = {
       "emailId": 4149502550,
       "message": {
-            "to": "example@hubspot.com"
+            "to": "daniel.bertschi@ucdconnect.ie"
             },
       "contactProperties": [
             {
@@ -176,9 +176,9 @@ exports.postSignup = function(req, res, next) {
             },
             {
               "property": "email",
-              "value": "daniel.bertschi@ucdconnect.ie"
+              "value": "daniel@timpanix.com"
             }
-      ]/*,
+      ],
       "customProperties":[
             {
                 "property": "custom.custom_property_1",
@@ -188,7 +188,7 @@ exports.postSignup = function(req, res, next) {
                 "property": "custom.custom_property_2",
                 "value": "Some value for CP 2"
             }
-      ]*/
+      ]
 }
 
  var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
