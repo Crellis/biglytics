@@ -178,7 +178,7 @@ exports.postSignup = function(req, res, next) {
               "property": "email",
               "value": "daniel.bertschi@ucdconnect.ie"
             }
-      ],
+      ]/*,
       "customProperties":[
             {
                 "property": "custom.custom_property_1",
@@ -188,10 +188,11 @@ exports.postSignup = function(req, res, next) {
                 "property": "custom.custom_property_2",
                 "value": "Some value for CP 2"
             }
-      ]
+      ]*/
 }
 
- var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=demo';
+ var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
+ var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
 
 // fire request
 var request = require("request")
