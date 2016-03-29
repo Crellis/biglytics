@@ -193,7 +193,7 @@ exports.postSignup = function(req, res, next) {
 
  var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
  var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
-/*
+
 // fire request
 var request = require("request")
 request({
@@ -209,12 +209,16 @@ request({
             console.log(body)
         }
         else {
-            console.log("error: " + error)
-            console.log("response.statusCode: " + response.statusCode)
-            console.log("response.statusText: " + response.statusText)
+            console.log("error: " + error);
+            console.log("response.statusCode: " + response.statusCode);
+            console.log("response.statusText: " + response.statusText);
+            response.setEncoding('utf8');
+           	response.on('data', function(chunk){
+           		console.log('Body: ' + chunk)
+           	});
         }
     })
-*/
+/*
 
   var mailOptions = {
     url: singleSendEndpoint,
@@ -243,7 +247,7 @@ request({
 
    request.write(JSON.stringify(postData));
    request.end();
-
+*/
 
   /* End of Single Send API code */
 
