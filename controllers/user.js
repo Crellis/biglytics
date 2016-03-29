@@ -194,6 +194,7 @@ exports.postSignup = function(req, res, next) {
  var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=demo';
 
 // fire request
+var request = require("request")
 request({
     url: singleSendEndpoint,
     method: "POST",
