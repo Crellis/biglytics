@@ -335,6 +335,10 @@ exports.postReset = function(req, res, next) {
           });
         });
     },
+
+    //////////////// start here with transactional email stuff ////////////////////////////
+    // password reset email //
+
     function(user, done) {
       var transporter = nodemailer.createTransport({
         service: 'SendGrid',
@@ -410,6 +414,10 @@ exports.postForgot = function(req, res, next) {
         });
       });
     },
+
+    //////////////// start here with transactional email stuff ////////////////////////////
+    // password forgot email //
+
     function(token, user, done) {
       var transporter = nodemailer.createTransport({
         service: 'SendGrid',
