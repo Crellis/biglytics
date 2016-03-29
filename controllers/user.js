@@ -97,6 +97,8 @@ exports.postSignup = function(req, res, next) {
     password: req.body.password
   });
 
+  /* start of HubSpot Forms API code */
+
   //require Node modules
 
   var http = require('http');
@@ -148,6 +150,94 @@ exports.postSignup = function(req, res, next) {
 
   request.write(postData);
   request.end();
+  /* end of HubSpot Forms API code */
+
+
+  /* Single Send API code goes in here */
+
+   // build the data object
+   // TODO: update form to include first and last name
+   // TODO: include these dynamic values in the contact properties for the transactional email
+   // TODO: try adding from address and reply to address to message part of email
+
+   var postData = {
+      "emailId": 4149502550,
+      "message": {
+            "to": "example@hubspot.com"
+            },
+      "contactProperties": [
+            {
+                "property": "firstname",
+                "value": "Jack"
+            },
+            {
+                "property": "lastname",
+                "value": "Bauer"
+            },
+            {
+              "property": "email",
+              "value": "daniel.bertschi@ucdconnect.ie"
+            }
+      ],
+      "customProperties":[
+            {
+                "property": "custom.custom_property_1",
+                "value": "Some value for CP 1"
+            },
+            {
+                "property": "custom.custom_property_2",
+                "value": "Some value for CP 2"
+            }
+      ]
+}
+
+ var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=demo';
+
+// fire request
+request({
+    url: singleSendEndpoint,
+    method: "POST",
+    json: true,
+    headers: {
+        "content-type": "application/json",
+    },
+    body: JSON.stringify(postData)
+}, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            console.log(body)
+        }
+        else {
+            console.log("error: " + error)
+            console.log("response.statusCode: " + response.statusCode)
+            console.log("response.statusText: " + response.statusText)
+        }
+    })
+
+
+/*
+   // set up the request
+
+   var request = http.request(options, function(response){
+   	console.log("Status: " + response.statusCode);
+   	console.log("Headers: " + JSON.stringify(response.headers));
+   	response.setEncoding('utf8');
+   	response.on('data', function(chunk){
+   		console.log('Body: ' + chunk)
+   	});
+   });
+
+   request.on('error', function(e){
+   	console.log("Problem with request " + e.message)
+   });
+
+   // post the data
+
+   request.write(postData);
+   request.end();
+  /*
+
+  /* End of Single Send API code */
+
 
   User.findOne({ email: req.body.email }, function(err, existingUser) {
     if (existingUser) {
@@ -166,7 +256,10 @@ exports.postSignup = function(req, res, next) {
       });
     });
   });
-};
+
+
+
+}; // end of exports.postSignup function
 
 /**
  * GET /account
