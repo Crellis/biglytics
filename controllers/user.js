@@ -191,7 +191,7 @@ exports.postSignup = function(req, res, next) {
             }
       ]
 }
-
+/*
 //Load the request module
 var request = require('request');
 var postData = JSON.stringify(postDataJSON);
@@ -210,6 +210,7 @@ request({
         field1: 'data',
         field2: 'data'
     }*/
+/*
 }, function(error, response, body){
     if(error) {
         console.log(error);
@@ -217,7 +218,7 @@ request({
         console.log(response.statusCode, body);
 }
 });
-
+/*
 
  //var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
  //var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
@@ -268,33 +269,32 @@ request.end();
 /* end of new code */
 
 
-/*
+
 // fire request
 var request = require("request")
 request({
-    url: singleSendEndpoint,
+    url: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
     method: "POST",
     json: true,
     headers: {
         "content-type": "application/json"
     },
-    body: JSON.stringify(postData)
+    body: JSON.stringify(postDataJSON)
 }, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             console.log(body);
         }
         else {
             console.log("error: " + error);
-            console.log("response.statusCode: " + response.statusCode);
-            console.log("response.statusText: " + response.statusText);
+            console.log("statusCode Daniel: " + response.statusCode);
+            console.log("response Daniel: " + response.statusText);
             response.setEncoding('utf8');
            	response.on('data', function(chunk){
-           		console.log('Body: ' + chunk);
+           		console.log('Body Daniel: ' + chunk);
            	});
         }
     })
 
-*/
 
 
 
