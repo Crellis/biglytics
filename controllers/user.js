@@ -191,32 +191,59 @@ exports.postSignup = function(req, res, next) {
             }
       ]
 };
-/*
+
 //Load the request module
 var request = require('request');
-var postData = JSON.stringify(postDataJSON);
+//var postData = JSON.stringify(postDataJSON);
 //var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
 //var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
 
 //Lets configure and request
 request({
-    url: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f', //URL to hit
-    //qs: {from: 'blog example', time: +new Date()}, //Query string data
+    url: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
     method: 'POST',
   //  headers: 'Content-Type': 'application/json',
-
-    json: postDataJSON
+    //json: postDataJSON
+    json: {
+      "emailId": 4149502550,
+      "message": {
+            "to": "daniel.bertschi@ucdconnect.ie"
+            },
+      "contactProperties": [
+            {
+                "name": "firstname",
+                "value": "Jack"
+            },
+            {
+                "name": "lastname",
+                "value": "Bauer"
+            },
+            {
+              "name": "email",
+              "value": "daniel@timpanix.com"
+            }
+      ],
+      "customProperties":[
+            {
+                "name": "custom_property_1",
+                "value": "Some value for CP 1"
+            },
+            {
+                "name": "custom_property_2",
+                "value": "Some value for CP 2"
+            }
+      ]
+    }
     /*{
         field1: 'data',
         field2: 'data'
     }*/
-/*
 }, function(error, response, body){
     if(error) {
         console.log(error);
     } else {
         console.log(response.statusCode, body);
-}
+    }
 });
 /*
 
@@ -224,7 +251,7 @@ request({
  //var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
 
 /* new code based on Forms API node.js code */
-
+/*
 var http = require('http');
 var postData = JSON.stringify(postDataJSON);
 
