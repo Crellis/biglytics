@@ -328,10 +328,9 @@ request({
     headers: {
         "content-type": "application/json"
     },
-    body: {
+    body:
       //JSON.parse(JSON.stringify(postDataJSON))
     postDataJSON
-    }
 }, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             console.log(body);
