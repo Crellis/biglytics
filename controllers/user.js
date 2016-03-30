@@ -192,9 +192,55 @@ exports.postSignup = function(req, res, next) {
       ]
 }
 
- var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
- var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
+ //var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
+ //var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
 
+/* new code based on Forms API node.js code */
+
+//var http = require('http');
+
+
+// set the post options, changing out the HUB ID and FORM GUID variables.
+
+var options = {
+  hostname: 'api.hubapi.com',
+  path: '/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Content-Length': postData.length
+  }
+}
+
+// set up the request
+
+var request = http.request(options, function(response){
+  console.log("Status: " + response.statusCode);
+  console.log("Headers: " + JSON.stringify(response.headers));
+  response.setEncoding('utf8');
+  response.on('data', function(chunk){
+    console.log('Body: ' + chunk)
+  });
+});
+
+request.on('error', function(e){
+  console.log("Problem with request " + e.message)
+});
+
+// post the data
+
+request.write(postData);
+request.end();
+
+
+
+
+
+
+/* end of new code */
+
+
+/*
 // fire request
 var request = require("request")
 request({
@@ -220,35 +266,9 @@ request({
         }
     })
 
-/*
-  var mailOptions = {
-    url: singleSendEndpoint,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    }
-  }
-
-   // set up the request
-
-   var request = http.request(mailOptions, function(response){
-   	console.log("Status for Single Send: " + response.statusCode);
-   	console.log("Headers from Single Send: " + JSON.stringify(response.headers));
-   	response.setEncoding('utf8');
-   	response.on('data', function(chunk){
-   		console.log('Body from Single Send: ' + chunk)
-   	});
-   });
-
-   request.on('error', function(e){
-   	console.log("Problem with request " + e.message)
-   });
-
-   // post the data
-
-   request.write(JSON.stringify(postData));
-   request.end();
 */
+
+
 
   /* End of Single Send API code */
 
