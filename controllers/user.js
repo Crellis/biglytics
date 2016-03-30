@@ -161,7 +161,7 @@ exports.postSignup = function(req, res, next) {
    // TODO: include these dynamic values in the contact properties for the transactional email
    // TODO: try adding from address and reply to address to message part of email
 
-   var postData = {
+   var postDataJSON = {
       "emailId": 4149502550,
       "message": {
             "to": "daniel.bertschi@ucdconnect.ie"
@@ -198,6 +198,7 @@ exports.postSignup = function(req, res, next) {
 /* new code based on Forms API node.js code */
 
 var http = require('http');
+var postData = JSON.stringify(postDataJSON);
 
 
 // set the post options, changing out the HUB ID and FORM GUID variables.
