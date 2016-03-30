@@ -202,7 +202,7 @@ request({
     method: "POST",
     json: true,
     headers: {
-        "content-type": "application/json",
+        "content-type": "application/json"
     },
     body: JSON.stringify(postData)
 }, function (error, response, body) {
@@ -219,8 +219,8 @@ request({
            	});
         }
     })
-/*
 
+/*
   var mailOptions = {
     url: singleSendEndpoint,
     method: 'POST',
@@ -232,11 +232,11 @@ request({
    // set up the request
 
    var request = http.request(mailOptions, function(response){
-   	console.log("Status: " + response.statusCode);
-   	console.log("Headers: " + JSON.stringify(response.headers));
+   	console.log("Status for Single Send: " + response.statusCode);
+   	console.log("Headers from Single Send: " + JSON.stringify(response.headers));
    	response.setEncoding('utf8');
    	response.on('data', function(chunk){
-   		console.log('Body: ' + chunk)
+   		console.log('Body from Single Send: ' + chunk)
    	});
    });
 
