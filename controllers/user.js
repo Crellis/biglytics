@@ -197,7 +197,7 @@ exports.postSignup = function(req, res, next) {
 
 /* new code based on Forms API node.js code */
 
-//var http = require('http');
+var http = require('http');
 
 
 // set the post options, changing out the HUB ID and FORM GUID variables.
@@ -215,11 +215,11 @@ var options = {
 // set up the request
 
 var request = http.request(options, function(response){
-  console.log("Status: " + response.statusCode);
-  console.log("Headers: " + JSON.stringify(response.headers));
+  console.log("Status Daniel: " + response.statusCode);
+  console.log("Headers Daniel: " + JSON.stringify(response.headers));
   response.setEncoding('utf8');
   response.on('data', function(chunk){
-    console.log('Body: ' + chunk)
+    console.log('Body Daniel: ' + chunk)
   });
 });
 
