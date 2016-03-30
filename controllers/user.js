@@ -268,8 +268,56 @@ request.end();
 
 /* end of new code */
 
+var request = require('request');
 
+var options = {
+  uri: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
+  method: 'POST',
+  json: {
+    "emailId": 4149502550,
+    "message": {
+          "to": "daniel.bertschi@ucdconnect.ie"
+          },
+    "contactProperties": [
+          {
+              "name": "firstname",
+              "value": "Jack"
+          },
+          {
+              "name": "lastname",
+              "value": "Bauer"
+          },
+          {
+            "name": "email",
+            "value": "daniel@timpanix.com"
+          }
+    ],
+    "customProperties":[
+          {
+              "name": "custom_property_1",
+              "value": "Some value for CP 1"
+          },
+          {
+              "name": "custom_property_2",
+              "value": "Some value for CP 2"
+          }
+    ]
+  }
+};
 
+request(options, function (error, response, body) {
+  console.log("statusCode Daniel: " + response.statusCode);
+  console.log("response Daniel: " + response.statusText);
+  response.setEncoding('utf8');
+  response.on('data', function(chunk){
+    console.log('Body Daniel: ' + chunk);
+  });
+  /*if (!error && response.statusCode == 200) {
+    console.log(body) // Print the shortened url.
+  }*/
+});
+
+/*
 // fire request
 var request = require("request");
 request({
@@ -295,7 +343,7 @@ request({
         }
     });
 
-
+*/
 
 
   /* End of Single Send API code */
