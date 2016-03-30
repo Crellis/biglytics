@@ -202,42 +202,9 @@ var request = require('request');
 request({
     url: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
     method: 'POST',
-  //  headers: 'Content-Type': 'application/json',
-    //json: postDataJSON
-    json: {
-      "emailId": 4149502550,
-      "message": {
-            "to": "daniel.bertschi@ucdconnect.ie"
-            },
-      "contactProperties": [
-            {
-                "name": "firstname",
-                "value": "Jack"
-            },
-            {
-                "name": "lastname",
-                "value": "Bauer"
-            },
-            {
-              "name": "email",
-              "value": "daniel@timpanix.com"
-            }
-      ],
-      "customProperties":[
-            {
-                "name": "custom_property_1",
-                "value": "Some value for CP 1"
-            },
-            {
-                "name": "custom_property_2",
-                "value": "Some value for CP 2"
-            }
-      ]
-    }
-    /*{
-        field1: 'data',
-        field2: 'data'
-    }*/
+    headers: 'Content-Type': 'application/json',
+    json: true,
+    body: postDataJSON
 }, function(error, response, body){
     if(error) {
         console.log(error);
