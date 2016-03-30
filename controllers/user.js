@@ -271,7 +271,7 @@ request.end();
 
 
 // fire request
-var request = require("request")
+var request = require("request");
 request({
     url: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
     method: "POST",
@@ -293,7 +293,7 @@ request({
            		console.log('Body Daniel: ' + chunk);
            	});
         }
-    })
+    });
 
 
 
