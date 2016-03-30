@@ -4,7 +4,7 @@ var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var passport = require('passport');
 var User = require('../models/User');
-//delete Array.prototype.toJSON;
+delete Array.prototype.toJSON;
 
 /**
  * GET /login
@@ -195,7 +195,7 @@ exports.postSignup = function(req, res, next) {
 
 //Load the request module
 var request = require('request');
-//var postData = JSON.stringify(postDataJSON);
+var postData = JSON.stringify(postDataJSON);
 //var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
 //var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
 
@@ -207,7 +207,7 @@ request({
       'content-type': 'application/json'
     },
     json: true,
-    body: postDataJSON
+    body: postData
 }, function(error, response, body){
     if(error) {
         console.log(error);
