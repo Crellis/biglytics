@@ -202,7 +202,9 @@ var request = require('request');
 request({
     url: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
     method: 'POST',
-    headers: 'Content-Type': 'application/json',
+    headers: {
+      'content-type': 'application/json'
+    },
     json: true,
     body: postDataJSON
 }, function(error, response, body){
