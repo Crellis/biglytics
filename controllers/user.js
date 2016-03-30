@@ -330,7 +330,7 @@ request({
     },
     body:
       //JSON.parse(JSON.stringify(postDataJSON))
-    postDataJSON
+    JSON.stringify(postDataJSON)
 }, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             console.log(body);
