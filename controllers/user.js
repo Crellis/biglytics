@@ -337,10 +337,14 @@ request({
             console.log("error Daniel: " + error);
             console.log("statusCode Daniel: " + response.statusCode);
             console.log("response Daniel: " + response.statusText);
-            response.setEncoding('utf8');
+            console.log('Body Daniel: ' + response.body);
+            console.log('Body Daniel: ' + response.body.message);
+            console.log('Body Daniel: ' + response.body.sendResult);
+            /*response.setEncoding('utf8');
            	response.on('data', function(chunk){
            		console.log('Body Daniel: ' + chunk);
-           	});
+
+           	});*/
         }
     });
 
