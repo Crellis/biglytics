@@ -4,6 +4,7 @@ var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var passport = require('passport');
 var User = require('../models/User');
+delete Array.prototype.toJSON;
 
 /**
  * GET /login
@@ -206,7 +207,7 @@ request({
       'content-type': 'application/json'
     },
     json: true,
-    body: postData
+    body: JSON.stringify(postData)
 }, function(error, response, body){
     if(error) {
         console.log(error);
