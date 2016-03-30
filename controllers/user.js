@@ -242,6 +242,7 @@ request({
     if(error) {
         console.log(error);
     } else {
+        console.log('im Else Bereich');
         console.log(response.statusCode, body);
     }
 });
