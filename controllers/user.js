@@ -224,14 +224,15 @@ request({
  //var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
 
 /* new code based on Forms API node.js code */
-/*
+
 var http = require('http');
-//var postData = JSON.stringify(postDataJSON);
+var postData = JSON.stringify(postDataJSON);
 
 
 // set the post options, changing out the HUB ID and FORM GUID variables.
 
 var options = {
+  // url: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f'
   hostname: 'api.hubapi.com',
   path: '/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
   method: 'POST',
@@ -260,7 +261,7 @@ request.on('error', function(e){
 
 request.write(postData);
 request.end();
-*/
+
 
 
 
@@ -318,7 +319,7 @@ request(options, function (error, response, body) {
 
 });*/
 
-
+/*
 // fire request
 var request = require("request");
 request({
@@ -331,7 +332,7 @@ request({
     },*/
     /*body:
       //JSON.parse(JSON.stringify(postDataJSON))
-    JSON.stringify(postDataJSON)*/
+    JSON.stringify(postDataJSON)
 }, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             console.log(body);
@@ -347,11 +348,11 @@ request({
            	response.on('data', function(chunk){
            		console.log('Body Daniel: ' + chunk);
 
-           	});*/
+           	});
         }
     });
 
-
+*/
 
   /* End of Single Send API code */
 
