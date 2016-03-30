@@ -168,25 +168,25 @@ exports.postSignup = function(req, res, next) {
             },
       "contactProperties": [
             {
-                "property": "firstname",
+                "name": "firstname",
                 "value": "Jack"
             },
             {
-                "property": "lastname",
+                "name": "lastname",
                 "value": "Bauer"
             },
             {
-              "property": "email",
+              "name": "email",
               "value": "daniel@timpanix.com"
             }
       ],
       "customProperties":[
             {
-                "property": "custom.custom_property_1",
+                "name": "custom_property_1",
                 "value": "Some value for CP 1"
             },
             {
-                "property": "custom.custom_property_2",
+                "name": "custom_property_2",
                 "value": "Some value for CP 2"
             }
       ]
