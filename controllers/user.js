@@ -164,33 +164,33 @@ exports.postSignup = function(req, res, next) {
    var postDataJSON = {
       "emailId": 4149502550,
       "message": {
-            "to": "daniel.bertschi@ucdconnect.ie"
+            to: "daniel.bertschi@ucdconnect.ie"
             },
       "contactProperties": [
             {
-                "name": "firstname",
-                "value": "Jack"
+                name: "firstname",
+                value: "Jack"
             },
             {
-                "name": "lastname",
-                "value": "Bauer"
+                name: "lastname",
+                value: "Bauer"
             },
             {
-              "name": "email",
-              "value": "daniel@timpanix.com"
+              name: "email",
+              value: "daniel@timpanix.com"
             }
       ],
       "customProperties":[
             {
-                "name": "custom_property_1",
-                "value": "Some value for CP 1"
+                name: "custom_property_1",
+                value: "Some value for CP 1"
             },
             {
-                "name": "custom_property_2",
-                "value": "Some value for CP 2"
+                name: "custom_property_2",
+                value: "Some value for CP 2"
             }
       ]
-}
+};
 /*
 //Load the request module
 var request = require('request');
@@ -267,7 +267,7 @@ request.end();
 
 
 /* end of new code */
-
+/*
 var request = require('request');
 
 var options = {
@@ -316,9 +316,9 @@ request(options, function (error, response, body) {
     console.log('Body Daniel: ' + chunk);
   });
 
-});
+});*/
 
-/*
+
 // fire request
 var request = require("request");
 request({
@@ -328,7 +328,7 @@ request({
     headers: {
         "content-type": "application/json"
     },
-    body: postDataJSON
+    body: JSON.stringify(postDataJSON)
 }, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             console.log(body);
@@ -344,7 +344,6 @@ request({
         }
     });
 
-*/
 
 
   /* End of Single Send API code */
