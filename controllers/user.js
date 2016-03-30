@@ -196,6 +196,8 @@ exports.postSignup = function(req, res, next) {
 delete Array.prototype.toJSON;
 var request = require('request');
 var postData = JSON.stringify(postDataJSON);
+console.log('mit stringify :' + postData);
+console.log('ohne stringify:' + postDataJSON);
 //var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
 //var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
 
