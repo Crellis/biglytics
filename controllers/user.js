@@ -192,13 +192,39 @@ exports.postSignup = function(req, res, next) {
       ]
 }
 
+//Load the request module
+var request = require('request');
+//var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
+//var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
+
+//Lets configure and request
+request({
+    url: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f', //URL to hit
+    //qs: {from: 'blog example', time: +new Date()}, //Query string data
+    method: 'POST',
+  //  headers: 'Content-Type': 'application/json',
+
+    json: postDataJSON
+    /*{
+        field1: 'data',
+        field2: 'data'
+    }*/
+}, function(error, response, body){
+    if(error) {
+        console.log(error);
+    } else {
+        console.log(response.statusCode, body);
+}
+});
+
+
  //var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
  //var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
 
 /* new code based on Forms API node.js code */
-
+/*
 var http = require('http');
-var postData = JSON.stringify(postDataJSON);
+//var postData = JSON.stringify(postDataJSON);
 
 
 // set the post options, changing out the HUB ID and FORM GUID variables.
@@ -232,7 +258,7 @@ request.on('error', function(e){
 
 request.write(postData);
 request.end();
-
+*/
 
 
 
