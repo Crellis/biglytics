@@ -209,8 +209,8 @@ request({
     headers: {
       'content-type': 'application/json',
     },
-    //body: postData
-    json: postDataJSON
+    body: postData
+    //json: postData
 }, function(error, response, body){
     if(error) {
         console.log(error);
