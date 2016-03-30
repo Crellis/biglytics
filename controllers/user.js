@@ -164,30 +164,30 @@ exports.postSignup = function(req, res, next) {
    var postDataJSON = {
       "emailId": 4149502550,
       "message": {
-            to: "daniel.bertschi@ucdconnect.ie"
+            "to": "daniel.bertschi@ucdconnect.ie"
             },
       "contactProperties": [
             {
-                name: "firstname",
-                value: "Jack"
+                "name": "firstname",
+                "value": "Jack"
             },
             {
-                name: "lastname",
-                value: "Bauer"
+                "name": "lastname",
+                "value": "Bauer"
             },
             {
-              name: "email",
-              value: "daniel@timpanix.com"
+              "name": "email",
+              "value": "daniel@timpanix.com"
             }
       ],
       "customProperties":[
             {
-                name: "custom_property_1",
-                value: "Some value for CP 1"
+                "name": "custom_property_1",
+                "value": "Some value for CP 1"
             },
             {
-                name: "custom_property_2",
-                value: "Some value for CP 2"
+                "name": "custom_property_2",
+                "value": "Some value for CP 2"
             }
       ]
 };
@@ -334,7 +334,7 @@ request({
             console.log(body);
         }
         else {
-            console.log("error: " + error);
+            console.log("error Daniel: " + error);
             console.log("statusCode Daniel: " + response.statusCode);
             console.log("response Daniel: " + response.statusText);
             response.setEncoding('utf8');
