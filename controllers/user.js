@@ -306,15 +306,16 @@ var options = {
 };
 
 request(options, function (error, response, body) {
+  if (!error && response.statusCode == 200) {
+    console.log("nothing happening here"); // Print the shortened url.
+  }
   console.log("statusCode Daniel: " + response.statusCode);
   console.log("response Daniel: " + response.statusText);
   response.setEncoding('utf8');
   response.on('data', function(chunk){
     console.log('Body Daniel: ' + chunk);
   });
-  /*if (!error && response.statusCode == 200) {
-    console.log(body) // Print the shortened url.
-  }*/
+
 });
 
 /*
