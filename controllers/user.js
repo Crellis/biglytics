@@ -328,8 +328,10 @@ request({
     headers: {
         "content-type": "application/json"
     },
-    body: JSON.parse(JSON.stringify(postDataJSON))
-    //body: postDataJSON
+    body: {
+      //JSON.parse(JSON.stringify(postDataJSON))
+    postDataJSON
+    }
 }, function (error, response, body) {
         if (!error && response.statusCode === 200) {
             console.log(body);
@@ -338,9 +340,9 @@ request({
             console.log("error Daniel: " + error);
             console.log("statusCode Daniel: " + response.statusCode);
             console.log("response Daniel: " + response.statusText);
-            console.log('Body Daniel: ' + response.body);
-            console.log('Body Daniel: ' + response.body.message);
-            console.log('Body Daniel: ' + response.body.sendResult);
+            console.log('Body: ' + response.body);
+            console.log('Body Message: ' + response.body.message);
+            console.log('Body Send Result: ' + response.body.sendResult);
             /*response.setEncoding('utf8');
            	response.on('data', function(chunk){
            		console.log('Body Daniel: ' + chunk);
