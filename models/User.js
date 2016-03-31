@@ -16,10 +16,13 @@ var userSchema = new mongoose.Schema({
   tokens: Array,
 
   profile: {
-    name: { type: String, default: '' },
-    gender: { type: String, default: '' },
-    location: { type: String, default: '' },
-    website: { type: String, default: '' },
+    first_name: { type: String, default: 'Cyrill' },
+    last_name: { type: String, default: 'Bob' },
+    gender: { type: String, default: 'm' },
+    location: { type: String, default: 'Wicklow' },
+    website: { type: String, default: 'http://www.biglytics.net' },
+    job: { type: String, default: 'Dish washer' },
+    company: { type: String, default: 'HubSpot' },
     picture: { type: String, default: '' }
   },
 

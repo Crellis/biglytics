@@ -32,6 +32,14 @@ block content
       .col-sm-7
         input.form-control(type='text', name='website', id='website', value='#{user.profile.website}')
     .form-group
+        label.col-sm-3.control-label(for='job') Job
+        .col-sm-7
+          input.form-control(type='text', name='job', id='job', value='#{user.profile.job}')
+    .form-group
+        label.col-sm-3.control-label(for='company') Company
+        .col-sm-7
+            input.form-control(type='text', name='company', id='company', value='#{user.profile.company}')
+    .form-group
       label.col-sm-3.control-label(for='gravatar') Gravatar
       .col-sm-4
         img(src="#{user.gravatar()}", class='profile', width='100', height='100')
@@ -76,11 +84,6 @@ block content
     h3 Linked Accounts
   .form-horizontal
     .form-group
-      .col-sm-offset-3.col-sm-4
-        if user.instagram
-          p: a.text-danger(href='/account/unlink/instagram') Unlink your Instagram account
-        else
-          p: a(href='/auth/instagram') Link your Instagram account
       .col-sm-offset-3.col-sm-4
         if user.google
           p: a.text-danger(href='/account/unlink/google') Unlink your Google account
