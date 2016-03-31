@@ -174,10 +174,6 @@ exports.postSignup = function(req, res, next) {
             {
                 "name": "lastname",
                 "value": "Bauer"
-            },
-            {
-              "name": "email",
-              "value": "daniel@timpanix.com"
             }
       ],
       "customProperties":[
@@ -193,14 +189,7 @@ exports.postSignup = function(req, res, next) {
 };
 
 //Load the request module
-delete Array.prototype.toJSON;
 var request = require('request');
-var postData = JSON.stringify(postDataJSON);
-console.log('mit stringify :' + postData);
-console.log('ohne stringify:' + postDataJSON);
-console.log('mit parsing:' + JSON.parse(postData));
-//var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
-//var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
 
 //Lets configure and request
 request({
@@ -210,13 +199,11 @@ request({
     headers: {
       'content-type': 'application/json',
     },
-    body: postData
-    //json: postData
+    body: postDataJSON
 }, function(error, response, body){
     if(error) {
         console.log(error);
     } else {
-        console.log('im Else Bereich');
         console.log(response.statusCode, body);
     }
 });
