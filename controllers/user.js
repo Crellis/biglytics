@@ -57,7 +57,10 @@ exports.postLogin = function(req, res, next) {
  */
 exports.logout = function(req, res) {
   req.logout();
-  res.redirect('/');
+  //res.redirect('/');
+  res.render('account/logout', {
+    title: 'Logout'
+  });
 };
 
 /**
@@ -93,6 +96,8 @@ exports.postSignup = function(req, res, next) {
     email: req.body.email,
     password: req.body.password
   });
+
+  /* start of HubSpot Forms API code */
 
   //require Node modules
 
@@ -146,6 +151,66 @@ exports.postSignup = function(req, res, next) {
   request.write(postData);
   request.end();
 
+  /* end of HubSpot Forms API code */
+
+
+  /* Single Send API code */
+
+   // build the data object
+   // TODO: update form to include first and last name
+   // TODO: include these dynamic values in the contact properties for the transactional email
+   // TODO: try adding from address and reply to address to message part of email
+
+   var postDataJSON = {
+      "emailId": 4149502550,
+      "message": {
+            "to": "daniel.bertschi@ucdconnect.ie"
+            },
+      "contactProperties": [
+            {
+                "name": "firstname",
+                "value": "Jack"
+            },
+            {
+                "name": "lastname",
+                "value": "Bauer"
+            }
+      ],
+      "customProperties":[
+            {
+                "name": "custom_property_1",
+                "value": "Some value for CP 1"
+            },
+            {
+                "name": "custom_property_2",
+                "value": "Some value for CP 2"
+            }
+      ]
+};
+
+//Load the request module
+var request = require('request');
+
+//Lets configure and request
+request({
+    url: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
+    method: 'POST',
+    json: true,
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: postDataJSON
+}, function(error, response, body){
+    if(error) {
+        console.log(error);
+    } else {
+        console.log(response.statusCode, body);
+    }
+});
+
+  /* End of Single Send API code */
+
+
   User.findOne({ email: req.body.email }, function(err, existingUser) {
     if (existingUser) {
       req.flash('errors', { msg: 'Account with that email address already exists.' });
@@ -163,7 +228,10 @@ exports.postSignup = function(req, res, next) {
       });
     });
   });
-};
+
+
+
+}; // end of exports.postSignup function
 
 /**
  * GET /account
@@ -332,6 +400,10 @@ exports.postReset = function(req, res, next) {
           });
         });
     },
+
+    //////////////// start here with transactional email stuff ////////////////////////////
+    // password reset email //
+
     function(user, done) {
       var transporter = nodemailer.createTransport({
         service: 'SendGrid',
@@ -407,6 +479,10 @@ exports.postForgot = function(req, res, next) {
         });
       });
     },
+
+    //////////////// start here with transactional email stuff ////////////////////////////
+    // password forgot email //
+
     function(token, user, done) {
       var transporter = nodemailer.createTransport({
         service: 'SendGrid',
