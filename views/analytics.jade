@@ -4,10 +4,19 @@ block content
   .page-header
     h3 Your Dashboards
 
-    script(charset='utf-8' type='text/javascript' src='http://d3js.org/d3.v3.min.js')
+    script(type='text/javascript' src='//d3js.org/d3.v3.min.js')
 
     .chart
 
+<<<<<<< Updated upstream
+=======
+    form
+      Size
+        input(type='radio', name='mode', value='size')
+      Count
+        input(type='radio', name='mode', value='count')
+
+>>>>>>> Stashed changes
     .sunburst
 
     script.
@@ -34,9 +43,15 @@ block content
 
       var svg = d3.select(".sunburst").append("svg")
           .attr("width", width)
+<<<<<<< Updated upstream
             .attr("height", height)
           .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height * .52 + ")");
+=======
+          .attr("height", height)
+        .append("g")
+          .attr("transform", "translate(" + width / 2 + "," + height * .52 + ")");
+>>>>>>> Stashed changes
 
       var partition = d3.layout.partition()
           .sort(null)
@@ -50,7 +65,11 @@ block content
           .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
 
       d3.json("flare.json", function(error, root) {
+<<<<<<< Updated upstream
         if (error) throw error;
+=======
+        if (error) return console.warn(error);
+>>>>>>> Stashed changes
 
         var path = svg.datum(root).selectAll("path")
             .data(partition.nodes)
@@ -62,7 +81,11 @@ block content
             .style("fill-rule", "evenodd")
             .each(stash);
 
+<<<<<<< Updated upstream
       d3.selectAll("input").on("change", function change() {
+=======
+        d3.selectAll("input").on("change", function change() {
+>>>>>>> Stashed changes
           var value = this.value === "count"
               ? function() { return 1; }
               : function(d) { return d.size; };
