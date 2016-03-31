@@ -2,4 +2,24 @@ extends layout
 
 block content
   .page-header
-    h3 Analytics
+    h3 Your Dashboards
+
+    script(charset='utf-8' type='text/javascript' src='http://d3js.org/d3.v3.min.js')
+
+    .chart
+
+    script.
+      console.log(data);
+      var data = [4, 8, 15, 16, 23, 42];
+      console.log(data);
+
+      var x = d3.scale.linear()
+        .domain([0, d3.max(data)])
+        .range([0, 420]);
+
+      d3.select(".chart")
+        .selectAll("div")
+          .data(data)
+        .enter().append("div")
+          .style("width", function(d) { return x(d) + "px"; })
+          .text(function(d) { return d; });
