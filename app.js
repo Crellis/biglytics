@@ -38,6 +38,7 @@ var homeController = require('./controllers/home');
 var userController = require('./controllers/user');
 var apiController = require('./controllers/api');
 var contactController = require('./controllers/contact');
+var analyticsController = require('./controllers/analytics');
 var dashboardsController = require('./controllers/dashboards');
 
 /**
@@ -131,6 +132,7 @@ app.post('/account/profile', passportConf.isAuthenticated, userController.postUp
 app.post('/account/password', passportConf.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConf.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConf.isAuthenticated, userController.getOauthUnlink);
+app.get('/analytics', analyticsController.analytics);
 
 /**
  * API examples routes.
@@ -228,10 +230,3 @@ app.listen(app.get('port'), function() {
 });
 
 module.exports = app;
-
-// app.js
-app.get('/', function (req, res) {
-  res.render({
-    scripts: ['jquery.min.js', '/nowjs/now.js']
-  }
-}
