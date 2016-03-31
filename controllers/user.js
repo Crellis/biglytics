@@ -100,7 +100,7 @@ exports.postSignup = function(req, res, next) {
   /* start of HubSpot Forms API code */
 
   //require Node modules
-/*
+
   var http = require('http');
   var querystring = require('querystring');
   var cookieParser = require('cookie-parser');
@@ -150,11 +150,11 @@ exports.postSignup = function(req, res, next) {
 
   request.write(postData);
   request.end();
-  */
+
   /* end of HubSpot Forms API code */
 
 
-  /* Single Send API code goes in here */
+  /* Single Send API code */
 
    // build the data object
    // TODO: update form to include first and last name
@@ -207,141 +207,6 @@ request({
         console.log(response.statusCode, body);
     }
 });
-/*
-
- //var hapikey = '357360bd-c2b3-465c-b422-936f0178d44f';
- //var singleSendEndpoint = 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=' + hapikey;
-
-/* new code based on Forms API node.js code */
-/*
-var http = require('http');
-var postData = JSON.stringify(postDataJSON);
-
-
-// set the post options, changing out the HUB ID and FORM GUID variables.
-
-var options = {
-  // url: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f'
-  hostname: 'api.hubapi.com',
-  path: '/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Content-Length': postData.length
-  }
-}
-
-// set up the request
-
-var request = http.request(options, function(response){
-  console.log("Status Daniel: " + response.statusCode);
-  console.log("Headers Daniel: " + JSON.stringify(response.headers));
-  response.setEncoding('utf8');
-  response.on('data', function(chunk){
-    console.log('Body Daniel: ' + chunk)
-  });
-});
-
-request.on('error', function(e){
-  console.log("Problem with request " + e.message)
-});
-
-// post the data
-
-request.write(postData);
-request.end();
-
-
-
-
-
-
-/* end of new code */
-/*
-var request = require('request');
-
-var options = {
-  uri: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
-  method: 'POST',
-  json: {
-    "emailId": 4149502550,
-    "message": {
-          "to": "daniel.bertschi@ucdconnect.ie"
-          },
-    "contactProperties": [
-          {
-              "name": "firstname",
-              "value": "Jack"
-          },
-          {
-              "name": "lastname",
-              "value": "Bauer"
-          },
-          {
-            "name": "email",
-            "value": "daniel@timpanix.com"
-          }
-    ],
-    "customProperties":[
-          {
-              "name": "custom_property_1",
-              "value": "Some value for CP 1"
-          },
-          {
-              "name": "custom_property_2",
-              "value": "Some value for CP 2"
-          }
-    ]
-  }
-};
-
-request(options, function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    console.log("nothing happening here"); // Print the shortened url.
-  }
-  console.log("statusCode Daniel: " + response.statusCode);
-  console.log("response Daniel: " + response.statusText);
-  response.setEncoding('utf8');
-  response.on('data', function(chunk){
-    console.log('Body Daniel: ' + chunk);
-  });
-
-});*/
-
-/*
-// fire request
-var request = require("request");
-request({
-    url: 'https://api.hubapi.com/email/public/v1/singleEmail/send?hapikey=357360bd-c2b3-465c-b422-936f0178d44f',
-    method: "POST",
-    json: postDataJSON
-    //json: true,
-    /*headers: {
-        "content-type": "application/json"
-    },*/
-    /*body:
-      //JSON.parse(JSON.stringify(postDataJSON))
-    JSON.stringify(postDataJSON)
-}, function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-            console.log(body);
-        }
-        else {
-            console.log("error Daniel: " + error);
-            console.log("statusCode Daniel: " + response.statusCode);
-            console.log("response Daniel: " + response.statusText);
-            console.log('Body: ' + response.body);
-            console.log('Body Message: ' + response.body.message);
-            console.log('Body Send Result: ' + response.body.sendResult);
-            /*response.setEncoding('utf8');
-           	response.on('data', function(chunk){
-           		console.log('Body Daniel: ' + chunk);
-
-           	});
-        }
-    });
-
-*/
 
   /* End of Single Send API code */
 
